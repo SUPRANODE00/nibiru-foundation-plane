@@ -1,0 +1,8 @@
+x{
+  "rewrites": [
+    {
+      "source": "/api/vacuum/:path*",
+      "destination": "https://your-backend-api-endpoint.com*"
+    }
+  ]
+}
