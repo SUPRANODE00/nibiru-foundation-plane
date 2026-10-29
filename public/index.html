@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIBIRU Foundation Plane</title>
+    <style>
+        :root {
+            --void-black: #05070d;
+            --void-panel: #0d1220;
+            --subzero: #7ec0ff;
+            --sol-amber: #ffb057;
+            --ember-red: #ff5a5a;
+            --silver: #dde7ff;
+            --minus-prefix: #d7f0ff;
+            --glow: rgba(126, 200, 255, 0.25);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(255, 176, 87, 0.18), transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(126, 200, 255, 0.12), transparent 50%),
+                linear-gradient(180deg, var(--void-black), #0a0f1b 30%, #05070d);
+            color: var(--silver);
+            min-height: 100vh;
+            padding: 32px 20px;
+        }
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            background: rgba(13, 18, 32, 0.9);
+            border: 1px solid rgba(126, 200, 255, 0.24);
+            border-radius: 18px;
+            box-shadow: 0 0 40px rgba(126, 200, 255, 0.08);
+            overflow: hidden;
+        }
+        .header {
+            padding: 24px 28px 0;
+            border-bottom: 1px solid rgba(126, 200, 255, 0.2);
+        }
+        .title {
+            margin: 0;
+            font-size: clamp(2rem, 3vw, 3rem);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--silver);
+        }
+        .subtitle {
+            margin-top: 12px;
+            color: var(--subzero);
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+            padding: 24px 28px 28px;
+        }
+        .panel {
+            background: rgba(12, 18, 30, 0.9);
+            border: 1px solid rgba(126, 200, 255, 0.18);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: inset 0 0 24px rgba(126, 200, 255, 0.04);
+        }
+        h2 {
+            margin-top: 0;
+            color: var(--subzero);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--silver);
+        }
+        input, textarea {
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(126, 200, 255, 0.2);
+            background: rgba(255, 255, 255, 0.02);
+            color: white;
+            font-size: 1rem;
+        }
+        button {
+            background: linear-gradient(135deg, var(--sol-amber), var(--ember-red));
+            color: #1a0d07;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 0.04em;
+        }
+        .theory-box {
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(126, 200, 255, 0.04);
+            border: 1px solid rgba(126, 200, 255, 0.18);
+            margin-top: 6px;
+        }
+        .theory-box .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--minus-prefix);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .vars {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .var-chip {
+            border: 1px solid rgba(126, 200, 255, 0.12);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-family: monospace;
+            color: var(--minus-prefix);
+            font-size: 0.85rem;
+        }
+        .notice {
+            margin-top: 14px;
+            font-size: 0.83rem;
+            color: #d9e3ff;
+            line-height: 1.6;
+        }
+        .status {
+            margin-top: 16px;
+            min-height: 26px;
+            font-size: 0.9rem;
+            color: var(--subzero);
+        }
+        @media (max-width: 760px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">NIBIRU</h1>
+            <div class="subtitle">Foundation Plane / Member Registry</div>
+        </div>
+        <div class="grid">
+            <section class="panel">
+                <h2>Member record</h2>
+                <label for="handle">Handle</label>
+                <input id="handle" placeholder="Enter handle" />
+                <label for="username">Username</label>
+                <input id="username" placeholder="Enter username" />
+                <label for="email">Email</label>
+                <input id="email" placeholder="member@example.com" />
+                <label for="phone">Phone Number</label>
+                <input id="phone" placeholder="+1..." />
+                <label for="theory_notes">Void-encapsulation notes</label>
+                <textarea id="theory_notes" rows="4" placeholder="Optional field for doctrine notes"></textarea>
+                <button id="registerBtn">Register member</button>
+                <div class="status" id="status"></div>
+            </section>
+            <section class="panel">
+                <h2>Username control</h2>
+                <label for="memberId">Member ID</label>
+                <input id="memberId" placeholder="Member ID" />
+                <label for="newUsername">New Username</label>
+                <input id="newUsername" placeholder="Enter replacement username" />
+                <button id="changeBtn">Change username</button>
+                <div class="theory-box">
+                    <div class="tag">Sol / Void model</div>
+                    <div>Loop-automated encapsulation scheme designed to channel negative-energy values.</div>
+                    <div class="vars">
+                        <div class="var-chip">~sol_capture</div>
+                        <div class="var-chip">~vacuum_offset</div>
+                        <div class="var-chip">~void_loop</div>
+                        <div class="var-chip">~subzero_bias</div>
+                    </div>
+                </div>
+                <div class="notice">
+                    Policy: one username change is allowed in the first 30 days, then each subsequent change requires a 90-day cooldown.
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        const statusEl = document.getElementById('status');
+        function showStatus(message, ok = true) {
+            statusEl.textContent = message;
+            statusEl.style.color = ok ? '#7ec0ff' : '#ff9a9a';
+        }
+        document.getElementById('registerBtn').addEventListener('click', async () => {
+            const payload = {
+                handle: document.getElementById('handle').value.trim(),
+                username: document.getElementById('username').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                theory_notes: document.getElementById('theory_notes').value.trim()
+            };
+            if (!payload.handle || !payload.username) {
+                showStatus('Handle and username are required.', false);
+                return;
+            }
+            const res = await fetch('/api/member', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                showStatus(data.error || 'Member creation failed.', false);
+                return;
+            }
+            showStatus(`Member created with ID ${data.id}.`);
+            document.getElementById('memberId').value = data.id;
+        });
+        document.getElementById('changeBtn').addEventListener('click', async () => {
+            const memberId = document.getElementById('memberId').value.trim();
+            const newUsername = document.getElementById('newUsername').value.trim();
+            if (!memberId || !newUsername) {
+                showStatus('Member ID and new username are required.', false);
+                return;
+            }
+            const res = await fetch(`/api/member/${memberId}/username`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: newUsername })
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                showStatus(data.error || 'Username change failed.', false);
+                return;
+            }
+            showStatus(`Username updated to ${data.member.username}.`);
+        });
+    </script>
+</body>
+</html>
