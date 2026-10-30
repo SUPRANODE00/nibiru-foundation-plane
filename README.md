@@ -1,10 +1,15 @@
-# NIBIRU Foundation Plane
+# THE HORNS OF THE JINN
 
-A small GitHub-hosted member portal with a local SQLite database and a username policy controller.
+An optimized Node.js portal tracking the member state configurations for the NIBIRU Foundation Plane.
 
-## Setup
+## Architecture Objectives
+* **Creator & Administrator:** D3M13N 𖤐 CAPSULECRAFT
+* **System Type:** JSON-Encapsulated State Matrix (Bypassing native SQLite build overhead).
+* **Core Enforcement:** Username delta control loops with an automated 90-day cooldown policy.
+
+## Local Execution
 ```bash
 npm install
 node server.js
 ```
-Then open: http://localhost:3000
+Then visit: `http://localhost:3000`
