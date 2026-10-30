@@ -1,15 +1,23 @@
 # THE HORNS OF THE JINN
 
-An optimized Node.js portal tracking the member state configurations for the NIBIRU Foundation Plane.
+Consolidated production substrate for session authorization, active tamper audits, and calendar hook automation.
 
-## Architecture Objectives
-* **Creator & Administrator:** D3M13N 𖤐 CAPSULECRAFT
-* **System Type:** JSON-Encapsulated State Matrix (Bypassing native SQLite build overhead).
-* **Core Enforcement:** Username delta control loops with an automated 90-day cooldown policy.
+## Core Infrastructure Objectives
+* **Creator & Administrator:** D3M13N ✶ CAPSULECRAFT
+* **Default Handles Locked:** SUPRANODE00
+* **Database Driver:** Local JSON-Encapsulated State Matrix (Bypassing native SQLite build overhead).
 
-## Local Execution
+## Administrative Pipeline Handshaking
+Token authorization required for deep system access; all mutations are fully hash-chained and logged.
+```bash
+H="Authorization: Bearer \$ADMIN_TOKEN"
+curl -H "\$H" localhost:3000/api/admin/members
+curl -H "\$H" localhost:3000/api/admin/telemetry
+```
+
+## Setup & Deployment
 ```bash
 npm install
-node server.js
+sh start.sh
 ```
-Then visit: `http://localhost:3000`
+Open local deployment port: http://localhost:3000
