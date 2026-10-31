@@ -1,0 +1,25 @@
+name: Signal Pipeline CI Validation
+
+on:
+  push:
+    branches: [ main, master, signal-pipeline-improvements ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Verify Script Permissions
+        run: chmod +x ./pipeline.sh
+
+      - name: Execute Live Stream Integration Matrix Tests
+        run: |
+          SAMPLE_JSON='{"status": "Piercing Heavens", "CID": "PENDING-IMMUTABLE-LOCAL", "E": -3.1822, "N": -3.631, "U": 5.9509}'
+          echo "Testing Default Operations Pipeline..."
+          echo "$SAMPLE_JSON" | ./pipeline.sh
+          echo "Testing Advanced Parameters Custom Interface..."
+          echo "$SAMPLE_JSON" | ./pipeline.sh --band 5.8 --bw 40 --soc-threshold 25.0
