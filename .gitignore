@@ -1,0 +1,16 @@
+# System & Shell Configurations
+.bash_history*
+.bashrc
+.python_history
+.config/
+.cache/
+.local/
+.ssh/
+.android/
+
+# Dependency and System Runtimes
+__pycache__/
+.npm/
+.cargo/
+.gradle/
+.ipfs/
