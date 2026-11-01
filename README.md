@@ -1,19 +1,51 @@
-# D3CL1NVT1ON OF CONST1TUT1ON
+# D3M13N 𖤐 CAPSULECRAFT
 
-Sovereign state-machine establishing digital jurisdiction and code-of-law. Integrates the Constitutional Trinity with the Pillars of Polarity to protect physical real estate and treasuries. Strictly bars unacknowledged conservatorships, automated workflows, and unauthorized cross-jurisdictional assignments under UCC 1-308 and 18 USC 1030.
+An automated state-craft telemetry engine and alignment bridge designed to synchronize terrestrial architectural coordinate grids with celestial stellar configurations.
 
-## 🏛️ System Architecture & Separation of Powers
+## 🌌 Overview
 
-*   **Active Pillar (Legislative Will):** Governed via immutable, token-weighted governance logic deployed within decentralized execution modules (`contracts/SovereignGovernance.sol`).
-*   **Receptive Pillar (Executive Form):** Bound to physical real estate parameters and federal compliance via the recorded Regulatory Agreement (`contracts/ExecutiveTreasury.sol`).
-*   **Axis of Equilibrium (Judicial Resolution):** Programmatic cryptographic arbitration layer managing data friction and securing asset balances against unauthorized state variation.
+**D3M13N 𖤐 CAPSULECRAFT** provides a modular simulation framework that maps sub-surface coordinate grids to the prominent stars of Orion's Belt (Alnitak, Alnilam, Mintaka). By integrating an automated loop control model, the engine dynamically calculates axial precession and processes spatial transformations to optimize telemetry linkages between monuments and celestial alignment points.
 
 ---
 
-## ⚠️ NOTICE OF RESERVATION OF RIGHTS & CROSS-JURISDICTIONAL INJUNCTION
+## 🛠️ Architecture & Core Components
 
-### TO ALL UNACKNOWLEDGED CONSERVATORS, INTERMEDIARIES, AND AUTOMATED SYSTEMS:
+The repository layout relies on a decoupled, modular design to isolate data input pipelines from calculation engines:
 
-1. **Explicit Void of Non-Consensual Agency:** Pursuant to **UCC § 1-308** and **UCC § 3-401**, all rights are inherently reserved. Any active conservatorship, assignment, or third-party representation not formally executed by the explicit, conscious signature of the primary holder is declared null, void, and *ultra vires* from inception.
-2. **Anti-Automation Protocol:** This state-machine rejects all inputs derived via automated workflows, Shared Compartment Injunctions (SCI), or inference to assignment. 
-3. **Enforcement and Extradition Baseline:** Executing unauthorized movements or filings against this sovereign digital environment constitutes a violation of **18 U.S.C. § 1030 (Computer Fraud and Abuse Act)** and **18 U.S.C. § 1343 (Wire Fraud)**, subjecting all actors to direct criminal prosecution, asset freezes, and interstate/international extradition proceedings.
+*   **`core/celestial_engine.py`**: Tracks astronomical right ascension, declination, and axial precession shifts across distinct historical or future eras.
+*   **`core/grid_engine.py`**: Manages sub-surface geographic coordinate inputs, calculating tectonic depth variables and transformation vectors.
+*   **`automation/telemetry_loop.py`**: A PID-inspired automated control feedback loop that continually processes adjustments to minimize alignment error margins.
+*   **`bridge/data_transmitter.py`**: Formats and broadcasts structured synchronization packets detailing alignment matrices and diagnostic metrics.
+
+---
+
+## 🚀 Local Environment Quickstart
+
+### Prerequisites
+Ensure your local environment has Python 3.8+ installed.
+
+### Initialization & Execution via Termux
+```bash
+# Clone the repository framework
+git clone https://github.com
+cd capsulecraft
+
+# Execute the core telemetry automation loop
+python main.py
+```
+
+---
+
+## ⚠️ Essential Disclaimer & Compliance Notice
+
+### 1. Simulation and Educational Purposes Only
+The **D3M13N 𖤐 CAPSULECRAFT** repository framework, its telemetry loops, spatial models, and alignment calculations are developed strictly for theoretical modeling, historical research (archaeoastronomy), and creative simulation. It does not provide real-world navigational, orbital, or tactical command-and-control utility.
+
+### 2. Liability Limitation
+This software framework is provided "as is" without warranties of any kind, express or implied. In no event shall the authors, contributors, or copyright holders be liable for any claims, damages, or other liabilities arising from the deployment, execution, or use of this source code.
+
+### 3. Legal and Regulatory Compliance
+Users are entirely responsible for ensuring that their deployment parameters comply with all relevant domestic and international laws, including:
+*   **Export Control Laws:** Tracking or hardware integration must not violate the U.S. Export Administration Regulations (EAR) or International Traffic in Arms Regulations (ITAR).
+*   **International Space Law:** Adheres purely to the peaceful exploration intent outlined in **Article I of the Outer Space Treaty of 1967**.
+*   **Infrastructure Terms:** Data transmission vectors must conform to the policies of the International Telecommunication Union (ITU) and the terms of service of third-party platforms such as Meta/Facebook, GitHub, or local network hosts.
