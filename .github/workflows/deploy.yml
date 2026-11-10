@@ -3,9 +3,11 @@ name: Capsulecraft Telemetry Engine Automation
 on:
   push:
     branches: [ main ]
+  schedule:
+    # Trigger system evaluation automatically every single day at 00:00 UTC
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
-# Set strict, specific security permissions for GitHub Pages tracking deployment
 permissions:
   contents: write
   pages: write
@@ -32,11 +34,8 @@ jobs:
 
     - name: Execute Dual-Tracking Telemetry Engine
       run: |
-        # Generate the live astronomical matrix file
         python core_engine.py > telemetry_matrix.json
         cat telemetry_matrix.json
-        
-        # Fallback copy so the data displays directly if hitting root domain
         cp telemetry_matrix.json index.html
 
     - name: Deploy Live Matrix data to GitHub Pages Branch
@@ -47,4 +46,4 @@ jobs:
         publish_branch: gh-pages
         user_name: 'SUPRANODE00'
         user_email: 'message.luciio@gmail.com'
-        commit_message: "Automated real-time telemetry matrix synchronization [Actions Build] /L✠R/"
+        commit_message: "Automated real-time telemetry matrix synchronization [Scheduled Actions Build] /L✠R/"
