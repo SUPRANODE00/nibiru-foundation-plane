@@ -1,0 +1,37 @@
+name: Capsulecraft Telemetry Engine Automation
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-compile:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Base Repository Core
+      uses: actions/checkout@v4
+
+    - name: Initialize Isolated Python Environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+        cache: 'pip'
+
+    - name: Ingest Calculation Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy skyfield
+
+    - name: Execute Dual-Tracking Telemetry Engine
+      run: |
+        python core_engine.py > telemetry_matrix.json
+        cat telemetry_matrix.json
+
+    - name: Validate System Output Integrity
+      run: |
+        if ! jq empty telemetry_matrix.json; then
+          echo "Error: Output structural schema is corrupted."
+          exit 1
+        fi

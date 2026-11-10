@@ -1,61 +1,123 @@
 import math
 import json
 import sys
+from datetime import datetime, timezone
+from skyfield.api import load
 
-def calculate_alignment(planets: dict, tolerance_deg: float = 15.0) -> dict:
+def calculate_alignments(positions: dict, tolerance_deg: float = 15.0) -> dict:
     """
-    Evaluates planetary positions relative to the Earth Zone coordinate origin.
-    Determines alignment states based on angular distribution.
+    Evaluates both 2D longitudinal separation and true 3D spatial alignment.
+    Provides fallback visibility for ecliptic plane conjunctions.
     """
-    sorted_planets = sorted(planets.items(), key=lambda x: x[1])
-    alignments = []
+    planets_keys = list(positions.keys())
+    alignments_2d = []
+    alignments_3d = []
+
+    for i in range(len(planets_keys)):
+        for j in range(i + 1, len(planets_keys)):
+            p1, p2 = planets_keys[i], planets_keys[j]
+            lon1, lat1 = positions[p1]
+            lon2, lat2 = positions[p2]
+            
+            # --- 2D Ecliptic Longitude Separation ---
+            diff_2d = abs(lon1 - lon2) % 360
+            if diff_2d > 180:
+                diff_2d = 360 - diff_2d
+            
+            if diff_2d <= tolerance_deg:
+                alignments_2d.append({
+                    "pair": f"{p1}-{p2}",
+                    "planar_separation_deg": round(diff_2d, 4)
+                })
+
+            # --- True 3D Great-Circle Separation ---
+            r_lon1, r_lat1 = map(math.radians, [lon1, lat1])
+            r_lon2, r_lat2 = map(math.radians, [lon2, lat2])
+            
+            cos_sep = (math.sin(r_lat1) * math.sin(lat2) + 
+                       math.cos(r_lat1) * math.cos(r_lat2) * math.cos(r_lon1 - r_lon2))
+            cos_sep = max(-1.0, min(1.0, cos_sep))
+            sep_deg_3d = math.degrees(math.acos(cos_sep))
+
+            if sep_deg_3d <= tolerance_deg:
+                alignments_3d.append({
+                    "pair": f"{p1}-{p2}",
+                    "spatial_separation_3d_deg": round(sep_deg_3d, 4)
+                })
+
+    return {"planar_2d": alignments_2d, "spatial_3d": alignments_3d}
+
+def compute_refined_telemetry_mesh(earth_lon: float, earth_lat: float) -> dict:
+    """
+    Establishes the complementary dipole-antipole polarity vectors.
+    """
+    dipole_lon = earth_lon % 360
+    antipole_lon = (earth_lon + 180) % 360
     
-    for i in range(len(sorted_planets)):
-        for j in range(i + 1, len(sorted_planets)):
-            p1, a1 = sorted_planets[i]
-            p2, a2 = sorted_planets[j]
-            diff = abs(a1 - a2) % 360
-            if diff > 180:
-                diff = 360 - diff
-                
-            if diff <= tolerance_deg:
-                alignments.append({"pair": f"{p1}-{p2}", "separation_deg": round(diff, 2)})
-    return alignments
+    dipole_lat = earth_lat
+    antipole_lat = -earth_lat
 
-def compute_dipole_antipole(earth_longitude: float) -> dict:
-    """
-    Generates the exact inverse vector for the Earth Zone node.
-    Establishes the complementary polarity boundary.
-    """
-    dipole = earth_longitude % 360
-    antipole = (earth_longitude + 180) % 360
     return {
-        "dipole_vector": round(dipole, 4),
-        "antipole_vector": round(antipole, 4)
+        "dipole_node": {
+            "longitude_vector": round(dipole_lon, 4),
+            "latitude_vector": round(dipole_lat, 4)
+        },
+        "antipole_node": {
+            "longitude_vector": round(antipole_lon, 4),
+            "latitude_vector": round(antipole_lat, 4)
+        }
     }
 
 def main():
-    # Sample planetary longitudes (degrees along the ecliptic)
-    mock_ephemeris = {
-        "Mercury": 45.2,
-        "Venus": 48.7,
-        "Mars": 120.3,
-        "Jupiter": 52.1,
-        "Saturn": 280.5
+    forced_angle = None
+    if len(sys.argv) > 1:
+        try:
+            forced_angle = float(sys.argv[1])
+        except ValueError:
+            pass
+
+    ts = load.timescale()
+    t = ts.now()
+    eph = load('de421.bsp')
+    
+    sun = eph['sun']
+    earth = eph['earth']
+    
+    targets = {
+        "Mercury": eph['mercury'],
+        "Venus": eph['venus'],
+        "Mars": eph['mars'],
+        "Jupiter barycenter": eph['jupiter barycenter'],
+        "Saturn barycenter": eph['saturn barycenter']
     }
+
+    realtime_positions = {}
+    for name, target in targets.items():
+        astrometric = sun.at(t).observe(target)
+        lat, lon, _ = astrometric.ecliptic_latlon()
+        clean_name = name.split()[0]
+        realtime_positions[clean_name] = (lon.degrees, lat.degrees)
+
+    earth_astro = sun.at(t).observe(earth)
+    e_lat, e_lon, _ = earth_astro.ecliptic_latlon()
     
-    earth_zone_long = 46.0  # Core reference coordinate
-    
-    alignment_results = calculate_alignment(mock_ephemeris)
-    polarity_mesh = compute_dipole_antipole(earth_zone_long)
-    
+    earth_lon_active = forced_angle if forced_angle is not None else e_lon.degrees
+    earth_lat_active = e_lat.degrees
+
+    all_alignments = calculate_alignments(realtime_positions)
+    telemetry_layers = compute_refined_telemetry_mesh(earth_lon_active, earth_lat_active)
+
     output_schema = {
-        "earth_zone_anchor": {"longitude": earth_zone_long},
-        "polarity_axis": polarity_mesh,
-        "detected_alignments": alignment_results,
+        "telemetry_timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "earth_zone_anchor": {
+            "longitude": round(earth_lon_active, 4),
+            "latitude": round(earth_lat_active, 4)
+        },
+        "refined_telemetry_mesh": telemetry_layers,
+        "tracked_alignments": all_alignments,
         "system_status": "Flawless"
     }
-    
+
     print(json.dumps(output_schema, indent=2))
 
 if __name__ == "__main__":
