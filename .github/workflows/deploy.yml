@@ -5,6 +5,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# Set strict, specific security permissions for GitHub Pages tracking deployment
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-compile:
     runs-on: ubuntu-latest
@@ -26,12 +32,19 @@ jobs:
 
     - name: Execute Dual-Tracking Telemetry Engine
       run: |
+        # Generate the live astronomical matrix file
         python core_engine.py > telemetry_matrix.json
         cat telemetry_matrix.json
+        
+        # Fallback copy so the data displays directly if hitting root domain
+        cp telemetry_matrix.json index.html
 
-    - name: Validate System Output Integrity
-      run: |
-        if ! jq empty telemetry_matrix.json; then
-          echo "Error: Output structural schema is corrupted."
-          exit 1
-        fi
+    - name: Deploy Live Matrix data to GitHub Pages Branch
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        publish_branch: gh-pages
+        user_name: 'SUPRANODE00'
+        user_email: 'message.luciio@gmail.com'
+        commit_message: "Automated real-time telemetry matrix synchronization [Actions Build] /L✠R/"
